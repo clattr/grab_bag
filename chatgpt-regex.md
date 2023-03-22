@@ -20,7 +20,7 @@ My working solution:
 `zmv 'PB_Kontoauszug_KtoNr_(*)_(*)-(*)-(*)_(*).pdf' 'PB_KAZ_${1}_${4}.${3}.${2}.pdf'`
 (see answer [5])
 
-At the end ChatGPT analyses and praises my solution, the only flawless performance ;), funny.
+At the end ChatGPT provides a correct analyses of my solution.
 
 
 ### The complete conversation
