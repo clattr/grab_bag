@@ -1,27 +1,26 @@
-## ChatGTP Renaming of Files
+## ChatGPT Renaming of Files
 No AI involved
-
+18 March 2023
 
 ### Summary
 ----
-ChatGTP (free, 3.5) fails at a simple(?) regex challenge:
+ChatGPT (free, 3.5) fails at a simple(?) regex challenge:
 renaming of bank account files with command line tools
-My support with a working regex for selecting the files didn't help (see above answer [3])
 
-to answer [1]
 a) regex for selecting the .pdf files is wrong.
-b) even when using the correct `PB_Kontoauszug_KtoNr_*_*-*_*.pdf` tasks end with an
+b) even when using the correct `PB_Kontoauszug_KtoNr_*_*-*_*.pdf` ChatGPT's proposal ends with an
 error message. I can't make any sense of the sequence `/PB_KAZ_$\1 | sed "s/^0*//")_\2.pdf/`.
 It seems ChatGPT makes s.th. up.
+(see answer [1])
+Providing a working regex for selecting the files didn't help (see above answer [3])
 
-to answer [4]
 zmv is an optional installation for zsh on macOS. (autoload -U zmv)
 Answer is wrong (missing parenthesis, failing parameter expansion)
 My working solution:
 `zmv 'PB_Kontoauszug_KtoNr_(*)_(*)-(*)-(*)_(*).pdf' 'PB_KAZ_${1}_${4}.${3}.${2}.pdf'`
+(see answer [5])
 
-At the end ChatGPT analyses and praises my solution, the only flawless performance, funny.
-
+At the end ChatGPT analyses and praises my solution, the only flawless performance ;), funny.
 
 
 ### The complete conversation
@@ -31,10 +30,10 @@ At the end ChatGPT analyses and praises my solution, the only flawless performan
 rename files with the pattern PB_Kontoauszug_KtoNr_0123456789_09-04-2022_101234.pdf to PB_KAZ_12345678_2022.04.09.pdf with sed or other commandline tool
 
 
-** ChatGTP (3.5): **
+** ChatGPT (3.5): ** 
 To rename files with the pattern "PB_Kontoauszug_KtoNr_0123456789_09-04-2022_101234.pdf" to "PB_KAZ_12345678_2022.04.09.pdf" using sed or other command-line tool, you can use the following command:
 
-[1]
+answer [1]
 ``` bash
 for file in PB_Kontoauszug_KtoNr_*_*_*-*.pdf; do mv "$file" "$(echo $file | sed 's/PB_Kontoauszug_KtoNr_\([0-9]*\)_\([0-9]*-[0-9]*-[0-9]*\)_\([0-9]*\)\.pdf/PB_KAZ_$(echo \1 | sed "s/^0*//")_\2.pdf/")"; done
 ```
@@ -49,12 +48,12 @@ Note that this command assumes that the files are in the current directory. If t
 ** Me: **
 does not work in zsh. error message :"for dquote cmdsubst pipe quote
 
-** ChatGTP (3.5): **
+** ChatGPT (3.5): **
 I apologize for the inconvenience. The error message you're seeing is related to the use of double quotes and command substitutions in zsh shell.
 
 You can modify the command to work in zsh shell by using single quotes instead of double quotes and changing the inner single quotes to escaped double quotes. Here's the modified command that should work in zsh shell:
 
-[2]
+answer [2]
 ```swift
 for file in PB_Kontoauszug_KtoNr_*_*_*-*.pdf; do mv "$file" '$(echo '$file' | sed "s/PB_Kontoauszug_KtoNr_\([0-9]*\)_\([0-9]*-[0-9]*-[0-9]*\)_\([0-9]*\)\.pdf/PB_KAZ_$(echo \1 | sed \"s/^0*//\")_\2.pdf/")'; done
 ```
@@ -67,12 +66,12 @@ I hope this helps! Let me know if you have any further questions or issues.
 ** Me: **
 it seems that PB_Kontoauszug_KtoNr_*_*_*-*.pdf is not correct but  PB_Kontoauszug_KtoNr_*_*-*_*.pdf is
 
-** ChatGTP (3.5): **
+** ChatGPT (3.5): **
 Thank you for letting me know! You're right, the correct pattern for the filename is PB_Kontoauszug_KtoNr_*_*-*_*.pdf to match the example filename you provided.
 
 Here is the modified command with the correct pattern:
 
-[3]
+answer [3]
 ```
 bash
 for file in PB_Kontoauszug_KtoNr_*_*-*_*.pdf; do mv "$file" "$(echo $file | sed 's/PB_Kontoauszug_KtoNr_\([0-9]*\)_\([0-9]*-[0-9]*-[0-9]*\)_\([0-9]*\)\.pdf/PB_KAZ_$(echo \1 | sed "s/^0*//")_\2.pdf/")"; done
@@ -86,19 +85,22 @@ Again, I apologize for any confusion or inconvenience caused by my previous resp
 ok, but now i get the "for dquote cmdsubst pipe quote" error again
 
 
-** ChatGTP (3.5): **
+** ChatGPT (3.5): **
 I'm sorry to hear that you are still experiencing an error. The for dquote cmdsubst pipe quote error message is usually related to the use of double quotes and command substitutions within a zsh shell.
 
 Here is an updated version of the command that should work in zsh shell:
 
+answer [4]
+```
 bash
 for file in PB_Kontoauszug_KtoNr_*_*-*_*.pdf; do mv "$file" "$(echo $file | sed 's/PB_Kontoauszug_KtoNr_\([0-9]*\)_\([0-9]*-[0-9]*-[0-9]*\)_\([0-9]*\)\.pdf/PB_KAZ_$(echo \1 | sed "s/^0*//")_\2.pdf/")"; done
+```
 
 The only difference between this and my previous command is that the single quotes have been replaced with double quotes, and the inner double quotes have been escaped with a backslash.
 
 If this still doesn't work, another option you can try is to use the zsh built-in zmv command, which is specifically designed for batch renaming files. Here is an example command using zmv:
 
-[4]
+answer [5]
 ```
 css
 zmv 'PB_Kontoauszug_KtoNr_*_*-*_*.pdf' 'PB_KAZ_${1##0}_${2:0:4}.${2:5:2}.${2:8:2}.pdf'
@@ -110,12 +112,14 @@ I hope this helps! Let me know if you have any further questions or issues.
 
 ** Me: **
 ok, forgot to mention that it is zsh on macOS.  both last solution don't work. But this does work:
-``` find . -name 'PB_Kontoauszug_KtoNr*.pdf' -exec basename {} \;|sed -ne
+```
+find . -name 'PB_Kontoauszug_KtoNr*.pdf' -exec basename {} \;|sed -ne
 's/\(\(PB_\)\(Kontoauszug_KtoNr_\)\(0123456789\)_\(..\)-\(..\)-\(....\).*\(\.pdf\)\)/mv
-"\1" "\2KAZ_\4_\7.\6.\5\8" /p'|sh ```
+"\1" "\2KAZ_\4_\7.\6.\5\8" /p'|sh
+```
  can you comment on that?
 
-** ChatGTP (3.5): **
+** ChatGPT (3.5): **
 I see, thank you for letting me know that you are using zsh on macOS. The command you posted should work fine and achieve the desired result.
 
 The find command is used to search for files with the pattern PB_Kontoauszug_KtoNr*.pdf in the current directory and all its subdirectories. The basename command is used to extract just the filename portion of the path, which is then piped to sed.
